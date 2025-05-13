@@ -28,7 +28,6 @@ public class OrderGetTest {
         Response response = userApi.createUser(user);
         accessToken = response.jsonPath().getString("accessToken");
 
-        // создаём хотя бы один заказ, чтобы было что получить
         List<String> ingredients = List.of("61c0c5a71d1f82001bdaaa6d");
         given()
                 .header("Authorization", accessToken)
@@ -70,7 +69,6 @@ public class OrderGetTest {
         return "user_" + UUID.randomUUID() + "@yandex.ru";
     }
 
-    // вспомогательный внутренний класс запроса
     private static class OrderRequest {
         public List<String> ingredients;
 
