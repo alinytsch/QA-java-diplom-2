@@ -1,12 +1,10 @@
 package praktikum.user;
 
-import io.qameta.allure.junit4.AllureJunit4;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import praktikum.client.UserApi;
 import praktikum.model.User;
 import praktikum.model.UserCredentials;
@@ -50,10 +48,26 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("Создание пользователя без одного обязательного поля")
-    public void createUserMissingFieldTest() {
-        User userWithoutEmail = new User(null, "123456", "TestUser");
-        Response response = api.createUser(userWithoutEmail);
+    @DisplayName("Создание пользователя без email")
+    public void createUserMissingEmailTest() {
+        User user = new User(null, "123456", "TestUser");
+        Response response = api.createUser(user);
+        response.then().statusCode(403).body("success", is(false));
+    }
+
+    @Test
+    @DisplayName("Создание пользователя без пароля")
+    public void createUserMissingPasswordTest() {
+        User user = new User(testUser.getEmail(), null, "TestUser");
+        Response response = api.createUser(user);
+        response.then().statusCode(403).body("success", is(false));
+    }
+
+    @Test
+    @DisplayName("Создание пользователя без имени")
+    public void createUserMissingNameTest() {
+        User user = new User(testUser.getEmail(), "123456", null);
+        Response response = api.createUser(user);
         response.then().statusCode(403).body("success", is(false));
     }
 
@@ -72,6 +86,15 @@ public class UserTest {
     public void loginWithWrongPasswordTest() {
         api.createUser(testUser);
         UserCredentials creds = new UserCredentials(testUser.getEmail(), "wrongpass");
+        Response response = api.login(creds);
+        response.then().statusCode(401).body("message", containsString("email or password are incorrect"));
+    }
+
+    @Test
+    @DisplayName("Логин с неверной почтой")
+    public void loginWithWrongEmailTest() {
+        api.createUser(testUser);
+        UserCredentials creds = new UserCredentials("wrong@email.com", testUser.getPassword());
         Response response = api.login(creds);
         response.then().statusCode(401).body("message", containsString("email or password are incorrect"));
     }
