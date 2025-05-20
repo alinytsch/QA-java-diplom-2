@@ -28,7 +28,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -36,21 +35,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- RestAssured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.4.0</version>
         </dependency>
 
-        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.16.1</version>
         </dependency>
 
-        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -58,7 +54,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Allure -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
@@ -70,7 +65,6 @@
             <artifactId>allure-rest-assured</artifactId>
         </dependency>
 
-        <!-- Для логирования в тестах -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -81,7 +75,6 @@
 
     <build>
         <plugins>
-            <!-- Компиляция -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -92,7 +85,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Запуск тестов + Allure -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -112,7 +104,6 @@
                 </dependencies>
             </plugin>
 
-            <!-- Allure report plugin -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -125,3 +116,4 @@
         </plugins>
     </build>
 </project>
+
