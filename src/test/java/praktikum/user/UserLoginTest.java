@@ -1,7 +1,7 @@
 package praktikum.user;
 
-import io.qameta.allure.junit4.AllureJunit4;
 import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
@@ -9,9 +9,7 @@ import org.junit.Test;
 import praktikum.client.UserApi;
 import praktikum.model.User;
 import praktikum.model.UserCredentials;
-
 import java.util.UUID;
-
 import static org.hamcrest.Matchers.*;
 
 public class UserLoginTest {

@@ -1,20 +1,17 @@
 package praktikum.user;
 
 import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import praktikum.client.UserApi;
 import praktikum.model.User;
-import praktikum.model.UserCredentials;
-
 import java.util.UUID;
-
 import static org.hamcrest.Matchers.*;
 
 public class UserTest {
-
     private final UserApi api = new UserApi();
     private User testUser;
     private String accessToken;
@@ -51,52 +48,21 @@ public class UserTest {
     @DisplayName("Создание пользователя без email")
     public void createUserMissingEmailTest() {
         User user = new User(null, "123456", "TestUser");
-        Response response = api.createUser(user);
-        response.then().statusCode(403).body("success", is(false));
+        api.createUser(user).then().statusCode(403).body("success", is(false));
     }
 
     @Test
     @DisplayName("Создание пользователя без пароля")
     public void createUserMissingPasswordTest() {
         User user = new User(testUser.getEmail(), null, "TestUser");
-        Response response = api.createUser(user);
-        response.then().statusCode(403).body("success", is(false));
+        api.createUser(user).then().statusCode(403).body("success", is(false));
     }
 
     @Test
     @DisplayName("Создание пользователя без имени")
     public void createUserMissingNameTest() {
         User user = new User(testUser.getEmail(), "123456", null);
-        Response response = api.createUser(user);
-        response.then().statusCode(403).body("success", is(false));
-    }
-
-    @Test
-    @DisplayName("Логин с корректными данными")
-    public void loginWithValidCredentialsTest() {
-        api.createUser(testUser);
-        UserCredentials creds = new UserCredentials(testUser.getEmail(), testUser.getPassword());
-        Response response = api.login(creds);
-        response.then().statusCode(200).body("accessToken", notNullValue());
-        accessToken = response.jsonPath().getString("accessToken");
-    }
-
-    @Test
-    @DisplayName("Логин с неверным паролем")
-    public void loginWithWrongPasswordTest() {
-        api.createUser(testUser);
-        UserCredentials creds = new UserCredentials(testUser.getEmail(), "wrongpass");
-        Response response = api.login(creds);
-        response.then().statusCode(401).body("message", containsString("email or password are incorrect"));
-    }
-
-    @Test
-    @DisplayName("Логин с неверной почтой")
-    public void loginWithWrongEmailTest() {
-        api.createUser(testUser);
-        UserCredentials creds = new UserCredentials("wrong@email.com", testUser.getPassword());
-        Response response = api.login(creds);
-        response.then().statusCode(401).body("message", containsString("email or password are incorrect"));
+        api.createUser(user).then().statusCode(403).body("success", is(false));
     }
 
     private String generateEmail() {
